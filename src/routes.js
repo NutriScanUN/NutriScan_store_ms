@@ -44,7 +44,9 @@ const upload = multer({storage});
 
 
 
-router.post('/uploadOffImg', upload.single('offimg'), OFFControllers.uploadOffImg);
+// router.post('/uploadOffImg', upload.single('offimg'), OFFControllers.uploadOffImg);
+router.get('/off/:ref', OFFControllers.getOffProduct);
+
 
 
 module.exports = router;

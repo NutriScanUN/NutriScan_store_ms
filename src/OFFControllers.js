@@ -1,4 +1,6 @@
+const fetch = require("node-fetch");
 const FormData = require("form-data");
+const Productos = require("./Models/Productos");
 
 module.exports = {
 
@@ -47,7 +49,37 @@ module.exports = {
         res.status(500).json(error);
       }
     }
-  }
+  },
 
+  async getOffProduct(req, res){
+    const OFF_MS = process.env.OFF_MS ?? "http://localhost:3002/api/"
+
+    try{
+      const { ref } = req.params;
+  
+      const DBProdPromise = Productos.findOne({
+        where:{
+          "referencia":ref
+        }
+      });
+      
+      const OffRes = await fetch(`${OFF_MS}${ref}`);
+      const OffProduct = await OffRes.json();
+  
+      const DBProduct = await DBProdPromise;
+  
+      if(!DBProduct){
+        await Productos.create({
+          referencia: ref,
+          nombre: OffProduct.product.nombre,
+          foto: OffProduct.product.foto
+        });
+      }
+      
+      res.send(OffProduct);
+      console.log(OffProduct);
+    }catch(error){
+    }
+  }
 
 };

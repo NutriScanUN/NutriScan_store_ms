@@ -117,12 +117,12 @@ module.exports = {
         }
       });
       res.status(200).json(producto);
-
       console.log("Succesfull");
     } catch (error) {
       console.log("error retreivieng store: ", error);
       res.status(500).json({message: "error retreivieng store: ", error});
     }
+    return null;
   },
 
 

@@ -1,8 +1,11 @@
 const express = require("express");
+const multer = require("multer");
 const router = express.Router();
 
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
+
 const PGcontrollers = require("./PGControllers");
-const multer = require("multer");
 const OFFControllers = require("./OFFControllers");
 
 /* -----------------------|| POSTGRESS ROUTES ||--------------------------- */
@@ -39,13 +42,15 @@ router.delete("/product/:ref", PGcontrollers.deleteProduct);
 
 /* -----------------------|| OFF ROUTES ||-------------------------------- */
 
-const storage = multer.memoryStorage();
-const upload = multer({storage});
 
 
 
-// router.post('/uploadOffImg', upload.single('offimg'), OFFControllers.uploadOffImg);
+
+router.get('/off/:ref/fulldata', OFFControllers.getOffProductFullData);
 router.get('/off/:ref', OFFControllers.getOffProduct);
+
+router.post('/off/image', upload.single("offimg"), OFFControllers.uploadOffImage);
+router.post("/off", OFFControllers.createOffProduct)
 
 
 

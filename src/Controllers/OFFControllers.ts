@@ -1,10 +1,24 @@
-const fetch = require("node-fetch");
-const Productos = require("./Models/Productos");
-const FormData = require("form-data");
+import Productos, { ProductoObject } from "../Models/Productos.js";
+import FormData from "form-data";
+import { Request, Response } from "express";
+
+import("node-fetch").then(res => {
+  if(!globalThis.fetch){
+    // @ts-expect-error
+    globalThis.fetch = res.default;
+    // @ts-expect-error
+    globalThis.Headers = res.Headers;
+    // @ts-expect-error
+    globalThis.Request = res.Request
+    // @ts-expect-error
+    globalThis.Response = res.Response;
+    globalThis.Blob = res.Blob;
+  }
+})
 
 const OFF_MS = process.env.OFF_MS ?? "http://localhost:3002/api/"
 
-async function getOffProductInternal(req, res, fulldata = false){
+async function getOffProductInternal(req: Request, res: Response, fulldata = false){
 
   try{
     const { ref } = req.params;
@@ -16,16 +30,18 @@ async function getOffProductInternal(req, res, fulldata = false){
     });
     
     const OffRes = await fetch(`${OFF_MS}${ref}${fulldata?"/fulldata":""}`);
-    const OffProduct = await OffRes.json();
+    const OffProduct = await OffRes.json() as any;
 
     const DBProduct = await DBProdPromise;
 
     if(!DBProduct){
-      await Productos.create({
+      const newProduct: ProductoObject = {
         referencia: ref,
         nombre: OffProduct.producto.nombre,
-        foto: OffProduct.producto.foto
-      });
+        url_imagen: OffProduct.producto.foto
+      } as ProductoObject;
+
+      await Productos.create(newProduct);
     }
     
     res.json(OffProduct);
@@ -36,11 +52,11 @@ async function getOffProductInternal(req, res, fulldata = false){
   }
 }
 
-module.exports = {
-  async getOffProduct(req,res) { return getOffProductInternal(req, res)},
-  async getOffProductFullData(req,res) { return getOffProductInternal(req, res, true)},
+export default {
+  async getOffProduct(req: Request, res: Response) { return getOffProductInternal(req, res)},
+  async getOffProductFullData(req: Request, res: Response) { return getOffProductInternal(req, res, true)},
 
-  async createOffProduct(req, res){
+  async createOffProduct(req: Request, res: Response){
     console.log("Product create");
 
     try {
@@ -48,21 +64,19 @@ module.exports = {
 
       const pgProduct = (({
         tienda_id,
-        longitud,
         referencia,
         nombre,
         descripcion,
         foto
       }) => ({
         tienda_id,
-        longitud,
         referencia,
         nombre,
         descripcion,
         foto
       }))(req.body.producto);
 
-      //await Productos.create(pgProduct);
+      await Productos.create(pgProduct);
 
       let offProduct = {producto: {}, infoProducto: {}}
 
@@ -97,7 +111,7 @@ module.exports = {
     }
   },
 
-  async uploadOffImage(req, res){
+  async uploadOffImage(req: Request, res: Response){
     try{
       console.log("trying to upload");
 
@@ -120,11 +134,13 @@ module.exports = {
         knownLength: file.size
       });
 
-      const requestOptions = {
+      const requestOptions = 
+      {
         method: "POST",
         body: formdata
       };
 
+    //  @ts-expect-error
       const fetchRes = await fetch(`${OFF_MS}image`, requestOptions)
       const info = await fetchRes.json();
 
@@ -134,5 +150,9 @@ module.exports = {
       console.error("error uploading image: ", error);
       res.status(500).send({message: "error uploading image", error});
     }
+  },
+
+  async updateOffProduct(req: Request, res: Response){
+
   }
 };

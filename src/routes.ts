@@ -1,12 +1,13 @@
-const express = require("express");
-const multer = require("multer");
+
+import express from "express"
+import multer from "multer";
 const router = express.Router();
 
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
-const PGcontrollers = require("./PGControllers");
-const OFFControllers = require("./OFFControllers");
+import PGcontrollers from "./Controllers/PGControllers.js";
+import OFFControllers from "./Controllers/OFFControllers.js";
 
 /* -----------------------|| POSTGRESS ROUTES ||--------------------------- */
 
@@ -52,6 +53,4 @@ router.get('/off/:ref', OFFControllers.getOffProduct);
 router.post('/off/image', upload.single("offimg"), OFFControllers.uploadOffImage);
 router.post("/off", OFFControllers.createOffProduct)
 
-
-
-module.exports = router;
+export default router;

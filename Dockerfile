@@ -12,8 +12,10 @@ RUN npm install
 # Copiar todo el código al contenedor
 COPY . .
 
+RUN npm run build
+
 # Exponer el puerto
 EXPOSE 3005
 
 # Comando para iniciar la aplicación
-CMD ["node", "src/app.js"]
+CMD ["node", "built/app.js"]

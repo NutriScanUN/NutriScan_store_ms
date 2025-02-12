@@ -16,7 +16,7 @@ import("node-fetch").then(res => {
   }
 })
 
-const OFF_MS = process.env.OFF_MS ?? "http://localhost:3002/api/"
+const OFF_MS = process.env.OFF_MS ?? "http://localhost:3002/api"
 
 async function getOffProductInternal(req: Request, res: Response, fulldata = false){
 
@@ -29,7 +29,7 @@ async function getOffProductInternal(req: Request, res: Response, fulldata = fal
       }
     });
     
-    const OffRes = await fetch(`${OFF_MS}${ref}${fulldata?"/fulldata":""}`);
+    const OffRes = await fetch(`${OFF_MS}/${ref}${fulldata?"/fulldata":""}`);
     const OffProduct = await OffRes.json() as any;
 
     const DBProduct = await DBProdPromise;
@@ -141,7 +141,7 @@ export default {
       };
 
     //  @ts-expect-error
-      const fetchRes = await fetch(`${OFF_MS}image`, requestOptions)
+      const fetchRes = await fetch(`${OFF_MS}/image`, requestOptions)
       const info = await fetchRes.json();
 
       console.log(info)

@@ -45,16 +45,28 @@ const Productos = sequelize.define("Productos",{
   referencia:{
     type: DataTypes.CHAR,
     unique: true,
-    allowNull: false
+    allowNull: false,
+    get() : string {
+      return (this.getDataValue("referencia") as string).trim();
+    }
   },
   nombre:{
-    type: DataTypes.CHAR
+    type: DataTypes.CHAR,
+    get() : string {
+      return (this.getDataValue("nombre") as string).trim();
+    }
   },
   descripcion:{
-    type: DataTypes.CHAR
+    type: DataTypes.CHAR,
+    get() : string {
+      return (this.getDataValue("descripcion") as string).trim();
+    }
   },
   url_imagen:{
-    type: DataTypes.CHAR
+    type: DataTypes.CHAR,
+    get() : string {
+      return (this.getDataValue("url_imagen") as string).trim();
+    }
   }
 },
 {

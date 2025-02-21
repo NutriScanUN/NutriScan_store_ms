@@ -23,23 +23,43 @@ const Tiendas = sequelize.define("Tiendas",{
     allowNull: false
   },
   nombre:{
-    type: DataTypes.CHAR, 
+    type: DataTypes.CHAR,
+    
+    get() : string {
+      return (this.getDataValue("nombre") as string).trim();
+    }
+    
   },
   fecha_suscripcion:{
     type: DataTypes.DATE,
     defaultValue: DataTypes.NOW
   },
   direccion:{
-    type: DataTypes.CHAR
+    type: DataTypes.CHAR,
+    
+    get() : string {
+      return (this.getDataValue("direccion") as string).trim();
+    }
+    
   },
   descripcion:{
     type: DataTypes.TEXT
   },
   foto_tienda:{
-    type: DataTypes.CHAR
+    type: DataTypes.CHAR,
+    
+    get() : string {
+      return (this.getDataValue("foto_tienda") as string).trim();
+    }
+    
   },
   enlace:{
-    type: DataTypes.CHAR
+    type: DataTypes.CHAR,
+    
+    get() : string {
+      return (this.getDataValue("enlace") as string).trim();
+    }
+    
   }
 },
 {

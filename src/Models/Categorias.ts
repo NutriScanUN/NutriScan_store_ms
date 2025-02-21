@@ -19,7 +19,10 @@ const Categorias = sequelize.define("Categorias", {
   nombre: {
     type: DataTypes.CHAR,
     unique: true,
-    allowNull: false
+    allowNull: false,
+    get() : string{
+      return (this.getDataValue("nombre") as string).trim();
+    }
   }
 });
 

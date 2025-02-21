@@ -26,7 +26,8 @@ const Tiendas = sequelize.define("Tiendas",{
     type: DataTypes.CHAR,
     
     get() : string {
-      return (this.getDataValue("nombre") as string).trim();
+      const val = this.getDataValue("nombre")
+      return val ? (val as string).trim(): val;
     }
     
   },
@@ -38,7 +39,8 @@ const Tiendas = sequelize.define("Tiendas",{
     type: DataTypes.CHAR,
     
     get() : string {
-      return (this.getDataValue("direccion") as string).trim();
+      const val = this.getDataValue("direccion")
+      return val ? (val as string).trim(): val;
     }
     
   },
@@ -49,7 +51,8 @@ const Tiendas = sequelize.define("Tiendas",{
     type: DataTypes.CHAR,
     
     get() : string {
-      return (this.getDataValue("foto_tienda") as string).trim();
+      const val = this.getDataValue("foto_tienda")
+      return val ? (val as string).trim(): val;
     }
     
   },
@@ -57,7 +60,8 @@ const Tiendas = sequelize.define("Tiendas",{
     type: DataTypes.CHAR,
     
     get() : string {
-      return (this.getDataValue("enlace") as string).trim();
+      const val = this.getDataValue("enlace")
+      return val ? (val as string).trim(): val;
     }
     
   }

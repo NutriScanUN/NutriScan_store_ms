@@ -47,25 +47,29 @@ const Productos = sequelize.define("Productos",{
     unique: true,
     allowNull: false,
     get() : string {
-      return (this.getDataValue("referencia") as string).trim();
+      const val = this.getDataValue("referencia");
+      return val? (val as string).trim(): val;
     }
   },
   nombre:{
     type: DataTypes.CHAR,
     get() : string {
-      return (this.getDataValue("nombre") as string).trim();
+      const val = this.getDataValue("nombre");
+      return val? (val as string).trim(): val;
     }
   },
   descripcion:{
     type: DataTypes.CHAR,
     get() : string {
-      return (this.getDataValue("descripcion") as string).trim();
+      const val = this.getDataValue("descripcion");
+      return val? (val as string).trim(): val;
     }
   },
   url_imagen:{
     type: DataTypes.CHAR,
     get() : string {
-      return (this.getDataValue("url_imagen") as string).trim();
+      const val = this.getDataValue("url_imagen");
+      return val? (val as string).trim(): val;
     }
   }
 },

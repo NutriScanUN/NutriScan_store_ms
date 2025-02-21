@@ -21,7 +21,8 @@ const Categorias = sequelize.define("Categorias", {
     unique: true,
     allowNull: false,
     get() : string{
-      return (this.getDataValue("nombre") as string).trim();
+      const val = this.getDataValue("nombre");
+      return val? (val as string).trim(): val;
     }
   }
 });

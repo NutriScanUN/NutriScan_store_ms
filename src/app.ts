@@ -3,6 +3,7 @@ import express from "express";
 import routes from "./routes.js";
 import sequelize from "./database.js";
 import { SyncOptions } from "sequelize";
+import cors from "cors";
 
 const app = express();
 const PORT = process.env.PORT || 3001

@@ -19,6 +19,7 @@ router.get("/store/:id", PGcontrollers.getStore);
 
 router.get("/product/all", PGcontrollers.getAllProducts);
 router.get("/product/store/:id", PGcontrollers.getAllStoreProducts)
+router.get("/product/name/:name", PGcontrollers.getProductsSearchByName);
 router.get("/product/:ref", PGcontrollers.getProduct);
 
 

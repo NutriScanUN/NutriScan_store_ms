@@ -13,6 +13,13 @@ const syncOptions:SyncOptions = {
   alter: (process.env.SQLIZE_ALTER === "true")
 }
 
+const corsOptions = {
+  origin: "http://127.0.0.1:5173",
+  optionsSuccessStatus: 200
+}
+
+app.use(cors());
+
 app.use(express.json())
 app.use("/api", routes);
 

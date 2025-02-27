@@ -30,6 +30,12 @@ async function getOffProductInternal(req: Request, res: Response, fulldata = fal
     });
     
     const OffRes = await fetch(`${OFF_MS}/${ref}${fulldata?"/fulldata":""}`);
+
+    if(OffRes.status === 404){
+      res.status(OffRes.status).json({message: "Product not found"});
+      return;
+    }
+
     const OffProduct = await OffRes.json() as any;
 
     const DBProduct = await DBProdPromise;

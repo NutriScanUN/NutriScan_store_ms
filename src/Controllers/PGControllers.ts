@@ -298,7 +298,7 @@ export default {
       console.log(req.body);
 
       const tienda = await Tienda.update(req.body, {
-        where: { tienda_id: id },
+        where: { id_tienda: id },
         returning: true
       });
 
@@ -351,7 +351,7 @@ export default {
       console.log("id: ", id);
 
       const affectedRows = await Tienda.destroy({
-        where: { tienda_id: id }
+        where: { id_tienda: id }
       });
 
       console.log("succesfull");
